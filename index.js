@@ -25,10 +25,16 @@ async function run() {
   try {
     await client.connect();
     const taskCollection = client.db("TaskManager").collection("AllTask");
-
-    app.post("/allTask", async (req, res) => {
-      const query = req.body;
-      const task = await taskCollection.insertOne(query);
+    // alTask get api
+    app.get("/allTask", async (req, res) => {
+      const query = {};
+      const task = await taskCollection.find(query).toArray();
+      res.send(task);
+    });
+    // task post api
+    app.post("/task", async (req, res) => {
+      const addTask = req.body;
+      const task = await taskCollection.insertOne(addTask);
       res.send(task);
     });
   } finally {
