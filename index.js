@@ -37,13 +37,30 @@ async function run() {
       const filter = { _id: ObjectId(id) };
       const updatedDoc = {
         $set: {
-          check: taskBody,
+          check: taskBody.check,
         },
       };
       const result = await taskCollection.updateOne(filter, updatedDoc);
       res.send(result);
     });
+
+    // edit task api
+    app.put("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateTask = req.body;
+      console.log(id, updateTask);
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          text: updateTask.text,
+        },
+      };
+      const result = await taskCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
   } finally {
+    //some thing
   }
 }
 run().catch(console.dir);
