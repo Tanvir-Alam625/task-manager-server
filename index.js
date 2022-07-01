@@ -48,7 +48,6 @@ async function run() {
     app.put("/update/:id", async (req, res) => {
       const id = req.params.id;
       const updateTask = req.body;
-      console.log(id, updateTask);
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
       const updateDoc = {
